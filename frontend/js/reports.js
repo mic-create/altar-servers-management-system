@@ -1,7 +1,5 @@
 // FILE: frontend/js/reports.js
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile drawer logic setup
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const sidebar = document.getElementById('sidebar');
   const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -18,13 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Authentication Guard Check matching members.js architecture
   if (!sessionStorage.getItem('sfcc_auth')) {
     window.location.href = 'index.html';
     return;
   }
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
 
   const loadingState = document.getElementById('loadingState');
   const errorState = document.getElementById('errorState');
@@ -36,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchReports() {
     try {
-      loadingState.style.display = 'block';
-      errorState.style.display = 'none';
-      reportsDashboard.style.display = 'none';
+      if (loadingState) loadingState.style.display = 'block';
+      if (errorState) errorState.style.display = 'none';
+      if (reportsDashboard) reportsDashboard.style.display = 'none';
 
       const response = await fetch(`${API_BASE}/reports`, { 
         credentials: 'include' 
@@ -66,14 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
       reportDataCache = result;
       renderReports(result);
 
-      loadingState.style.display = 'none';
-      reportsDashboard.style.display = 'block';
+      if (loadingState) loadingState.style.display = 'none';
+      if (reportsDashboard) reportsDashboard.style.display = 'block';
 
     } catch (err) {
       console.error('Error loading reports:', err);
-      loadingState.style.display = 'none';
-      errorMessage.textContent = err.message || 'Unable to load reports.';
-      errorState.style.display = 'block';
+      if (loadingState) loadingState.style.display = 'none';
+      if (errorMessage) errorMessage.textContent = err.message || 'Unable to load reports.';
+      if (errorState) errorState.style.display = 'block';
     }
   }
 
@@ -89,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMemberTable(members) {
     const tbody = document.getElementById('memberStatsTableBody');
+    if (!tbody) return;
     tbody.innerHTML = '';
 
     if (!members || members.length === 0) {
@@ -116,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMeetingTable(meetings) {
     const tbody = document.getElementById('meetingHistoryTableBody');
+    if (!tbody) return;
     tbody.innerHTML = '';
 
     if (!meetings || meetings.length === 0) {
@@ -164,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modalMeetingMeta').textContent = `Date: ${meeting.scheduled_at ? new Date(meeting.scheduled_at).toLocaleString() : 'N/A'}  •  Present: ${meeting.present_count}  •  Absent: ${meeting.absent_count}`;
 
     const modalBodyTable = document.getElementById('modalAttendanceBody');
+    if (!modalBodyTable) return;
     modalBodyTable.innerHTML = '';
 
     reportDataCache.members.forEach(member => {
@@ -185,12 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('meetingModal').style.display = 'flex';
   }
 
-  document.getElementById('closeModalBtn').addEventListener('click', () => {
-    document.getElementById('meetingModal').style.display = 'none';
-  });
-  document.getElementById('modalCloseActionBtn').addEventListener('click', () => {
-    document.getElementById('meetingModal').style.display = 'none';
-  });
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  if (closeModalBtn) closeModalBtn.addEventListener('click', () => { document.getElementById('meetingModal').style.display = 'none'; });
+  
+  const modalCloseActionBtn = document.getElementById('modalCloseActionBtn');
+  if (modalCloseActionBtn) modalCloseActionBtn.addEventListener('click', () => { document.getElementById('meetingModal').style.display = 'none'; });
 
   const memberSearchInput = document.getElementById('memberSearchInput');
   if (memberSearchInput) {
@@ -202,28 +201,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.getElementById('printReportBtn').addEventListener('click', () => {
-    window.print();
-  });
+  const printReportBtn = document.getElementById('printReportBtn');
+  if (printReportBtn) printReportBtn.addEventListener('click', () => { window.print(); });
 
-  document.getElementById('exportCsvBtn').addEventListener('click', () => {
-    if (!reportDataCache || !reportDataCache.members) return;
-    let csvContent = "data:text/csv;charset=utf-8,No.,Altar Server Name,Meetings Attended,Meetings Absent,Attendance Rate (%)\n";
-    
-    reportDataCache.members.forEach((m, index) => {
-      csvContent += `${index + 1},"${m.name.replace(/"/g, '""')}",${m.meetings_attended},${m.meetings_absent},${m.attendance_rate}\n`;
+  const exportCsvBtn = document.getElementById('exportCsvBtn');
+  if (exportCsvBtn) {
+    exportCsvBtn.addEventListener('click', () => {
+      if (!reportDataCache || !reportDataCache.members) return;
+      let csvContent = "data:text/csv;charset=utf-8,No.,Altar Server Name,Meetings Attended,Meetings Absent,Attendance Rate (%)\n";
+      
+      reportDataCache.members.forEach((m, index) => {
+        csvContent += `${index + 1},"${m.name.replace(/"/g, '""')}",${m.meetings_attended},${m.meetings_absent},${m.attendance_rate}\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `SFCC_Altar_Servers_Attendance_Report_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
+  }
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `SFCC_Altar_Servers_Attendance_Report_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
-
-  retryBtn.addEventListener('click', fetchReports);
+  if (retryBtn) retryBtn.addEventListener('click', fetchReports);
 
   function escapeHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');

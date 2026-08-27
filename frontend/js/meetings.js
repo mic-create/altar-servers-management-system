@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
 
   const logoutBtn = document.getElementById('logoutBtn');
   const upcomingCard = document.getElementById('upcomingCard');
@@ -251,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeStr = modalTimeInput ? modalTimeInput.value : '10:00';
     if (!dateStr) return;
     
-    // ISO string with Lagos, Nigeria timezone offset (+01:00)
     const fullScheduledAt = `${dateStr}T${timeStr}:00+01:00`;
     if (hiddenScheduledAt) {
       hiddenScheduledAt.value = fullScheduledAt;

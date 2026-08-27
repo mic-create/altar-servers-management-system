@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
 
-  // Extract meetingId from query string
   const urlParams = new URLSearchParams(window.location.search);
   const meetingId = urlParams.get('meetingId');
 
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // DOM Elements
   const logoutBtn = document.getElementById('logoutBtn');
   const meetingInfoCard = document.getElementById('meetingInfoCard');
   const statTotal = document.getElementById('statTotal');
@@ -38,13 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const emptyState = document.getElementById('emptyState');
   const toast = document.getElementById('toast');
 
-  // Mobile Navigation Bindings
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const sidebar = document.getElementById('sidebar');
   const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-  let activeMembers = []; // List of all active members loaded from database
-  let attendanceMap = {}; // Map of member_id -> 'present' | 'absent'
+  let activeMembers = [];
+  let attendanceMap = {};
 
   initMobileNavigation();
 
@@ -61,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial Data Load Sequence
   loadMeetingAndAttendanceData();
 
   if (retryBtn) {
@@ -117,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
     attendanceTableBody.innerHTML = '';
 
     try {
-      // 1. Fetch meeting details and existing attendance records concurrently
       const [meetingRes, membersRes] = await Promise.all([
         fetch(`${API_BASE}/meetings/${meetingId}/attendance`, { credentials: 'include' }),
         fetch(`${API_BASE}/members?status=active`, { credentials: 'include' })
@@ -140,10 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const meetingJson = await meetingRes.json();
       const membersJson = await membersRes.json();
 
-      // Render meeting header information
       renderMeetingInfo(meetingJson.meeting || meetingJson.data);
 
-      // Parse active members from response structure
       let membersList = [];
       if (Array.isArray(membersJson)) {
         membersList = membersJson;
@@ -153,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         membersList = membersJson.members;
       }
 
-      // Filter strictly for active members
       activeMembers = membersList
         .filter(m => !m.status || m.status.toLowerCase() === 'active')
         .sort((a, b) => (a.full_name || '').localeCompare(b.full_name || ''));
@@ -164,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Parse existing attendance records from meeting response
       const existingRecords = meetingJson.attendance || meetingJson.data || [];
       attendanceMap = {};
       
@@ -351,9 +342,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showError(msg) {
-    loadingState.style.display = 'none';
-    errorText.textContent = msg;
-    errorState.style.display = 'flex';
+    if (loadingState) loadingState.style.display = 'none';
+    if (errorText) errorText.textContent = msg;
+    if (errorState) errorState.style.display = 'flex';
   }
 
   function showToast(message, type = 'success') {

@@ -1,3 +1,4 @@
+// FILE: frontend/js/members.js
 document.addEventListener('DOMContentLoaded', () => {
   // Authentication Guard Check
   if (!sessionStorage.getItem('sfcc_auth')) {
@@ -5,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
 
   let currentStatusFilter = 'active';
   let currentSearchQuery = '';
@@ -132,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const statusLabel = isActive ? 'Active' : 'Inactive';
       const toggleActionLabel = isActive ? 'Deactivate' : 'Reactivate';
       
-      // Inline SVGs for institutional styling
       const editIcon = `<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
       const toggleIcon = isActive 
         ? `<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>`
@@ -161,13 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let searchTimeout;
-  searchInput.addEventListener('input', (e) => {
-    clearTimeout(searchTimeout);
-    currentSearchQuery = e.target.value;
-    searchTimeout = setTimeout(() => {
-      fetchMembers();
-    }, 300);
-  });
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      currentSearchQuery = e.target.value;
+      searchTimeout = setTimeout(() => {
+        fetchMembers();
+      }, 300);
+    });
+  }
 
   filterTabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
@@ -178,18 +180,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  openAddModalBtn.addEventListener('click', () => {
-    modalTitle.textContent = 'Add New Altar Server';
-    editMemberId.value = '';
-    memberNameInput.value = '';
-    modalError.style.display = 'none';
-    memberModal.style.display = 'flex';
-    memberNameInput.focus();
-  });
+  if (openAddModalBtn) {
+    openAddModalBtn.addEventListener('click', () => {
+      modalTitle.textContent = 'Add New Altar Server';
+      editMemberId.value = '';
+      memberNameInput.value = '';
+      modalError.style.display = 'none';
+      memberModal.style.display = 'flex';
+      memberNameInput.focus();
+    });
+  }
 
-  closeModalBtn.addEventListener('click', () => {
-    memberModal.style.display = 'none';
-  });
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+      memberModal.style.display = 'none';
+    });
+  }
 
   window.openEditModal = (id, fullName) => {
     modalTitle.textContent = 'Edit Altar Server';
@@ -200,48 +206,50 @@ document.addEventListener('DOMContentLoaded', () => {
     memberNameInput.focus();
   };
 
-  memberForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const id = editMemberId.value;
-    const fullName = memberNameInput.value.trim();
+  if (memberForm) {
+    memberForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = editMemberId.value;
+      const fullName = memberNameInput.value.trim();
 
-    if (!fullName) return;
+      if (!fullName) return;
 
-    const isEdit = Boolean(id);
-    const endpoint = isEdit ? `${API_BASE}/members/${id}` : `${API_BASE}/members`;
-    const method = isEdit ? 'PUT' : 'POST';
+      const isEdit = Boolean(id);
+      const endpoint = isEdit ? `${API_BASE}/members/${id}` : `${API_BASE}/members`;
+      const method = isEdit ? 'PUT' : 'POST';
 
-    try {
-      const res = await fetch(endpoint, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ full_name: fullName })
-      });
+      try {
+        const res = await fetch(endpoint, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ full_name: fullName })
+        });
 
-      if (res.status === 401) {
-        sessionStorage.removeItem('sfcc_auth');
-        window.location.href = 'index.html';
-        return;
-      }
+        if (res.status === 401) {
+          sessionStorage.removeItem('sfcc_auth');
+          window.location.href = 'index.html';
+          return;
+        }
 
-      const json = await res.json();
+        const json = await res.json();
 
-      if (res.ok && json.success) {
-        memberModal.style.display = 'none';
-        showToast(json.message || 'Saved successfully', 'success');
-        fetchMembers();
-        fetchStatistics();
-      } else {
+        if (res.ok && json.success) {
+          memberModal.style.display = 'none';
+          showToast(json.message || 'Saved successfully', 'success');
+          fetchMembers();
+          fetchStatistics();
+        } else {
+          modalError.style.display = 'block';
+          modalError.textContent = json.message || 'An error occurred.';
+        }
+      } catch (err) {
+        console.error('Submit error:', err);
         modalError.style.display = 'block';
-        modalError.textContent = json.message || 'An error occurred.';
+        modalError.textContent = 'Unable to complete request.';
       }
-    } catch (err) {
-      console.error('Submit error:', err);
-      modalError.style.display = 'block';
-      modalError.textContent = 'Unable to complete request.';
-    }
-  });
+    });
+  }
 
   window.promptToggleStatus = (id, fullName, currentStatus) => {
     const isActivating = currentStatus === 'inactive';
@@ -287,15 +295,20 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmModal.style.display = 'flex';
   };
 
-  proceedConfirmBtn.addEventListener('click', () => {
-    if (confirmActionCallback) confirmActionCallback();
-  });
+  if (proceedConfirmBtn) {
+    proceedConfirmBtn.addEventListener('click', () => {
+      if (confirmActionCallback) confirmActionCallback();
+    });
+  }
 
-  cancelConfirmBtn.addEventListener('click', () => {
-    confirmModal.style.display = 'none';
-  });
+  if (cancelConfirmBtn) {
+    cancelConfirmBtn.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+    });
+  }
 
   function showToast(message, type = 'success') {
+    if (!toast) return;
     toast.textContent = message;
     toast.className = `toast toast-${type}`;
     toast.style.display = 'block';
@@ -303,6 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
   }
 });

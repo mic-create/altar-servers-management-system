@@ -1,8 +1,11 @@
+// FILE: frontend/js/auth.js
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const passwordInput = document.getElementById('adminPassword');
   const togglePasswordBtn = document.getElementById('togglePasswordBtn');
   const errorAlert = document.getElementById('errorAlert');
+
+  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
 
   if (togglePasswordBtn && passwordInput) {
     togglePasswordBtn.addEventListener('click', () => {
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch(`${API_BASE}/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
