@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3>${escapeHtml(matchingDbMeeting.title)}</h3>
           <p class="upcoming-date">${formattedDT}</p>
           ${matchingDbMeeting.description ? `<p class="upcoming-desc">${escapeHtml(matchingDbMeeting.description)}</p>` : ''}
-          <p class="upcoming-desc">Attendance: ${matchingDbMeeting.present_count || 0} / 61</p>
+          <p class="upcoming-desc">Attendance: ${matchingDbMeeting.present_count || 0} / 63</p>
         </div>
         <div class="upcoming-actions">
           <button class="btn btn-primary" onclick="window.location.href='attendance.html?meetingId=${matchingDbMeeting.id}'">Take Attendance</button>
