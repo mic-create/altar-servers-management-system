@@ -1,25 +1,40 @@
 // FILE: frontend/js/api.js
-// API configuration utility layer connected to backend
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
   ? 'http://127.0.0.1:5000/api' 
   : 'https://altar-servers-management-system.onrender.com/api';
 
+const getValidToken = () => {
+  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+  if (!token || token === 'undefined' || token === 'null' || token === '[object Object]') {
+    return null;
+  }
+  return token;
+};
+
+const handleUnauthorized = () => {
+  localStorage.removeItem('sfcc_auth_token');
+  sessionStorage.removeItem('sfcc_auth');
+  window.location.href = 'index.html';
+};
+
 const apiClient = {
   async get(endpoint) {
     try {
-      const token = localStorage.getItem('sfcc_auth_token');
+      const token = getValidToken();
+      if (!token) {
+        handleUnauthorized();
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          'Authorization': `Bearer ${token}`
         }
       });
       if (response.status === 401) {
-        localStorage.removeItem('sfcc_auth_token');
-        sessionStorage.removeItem('sfcc_auth');
-        window.location.href = 'index.html';
+        handleUnauthorized();
         return;
       }
       return await response.json();
@@ -28,23 +43,25 @@ const apiClient = {
       throw err;
     }
   },
-  
+
   async post(endpoint, data) {
     try {
-      const token = localStorage.getItem('sfcc_auth_token');
+      const token = getValidToken();
+      if (!token) {
+        handleUnauthorized();
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
       if (response.status === 401) {
-        localStorage.removeItem('sfcc_auth_token');
-        sessionStorage.removeItem('sfcc_auth');
-        window.location.href = 'index.html';
+        handleUnauthorized();
         return;
       }
       return await response.json();
@@ -56,20 +73,22 @@ const apiClient = {
 
   async put(endpoint, data) {
     try {
-      const token = localStorage.getItem('sfcc_auth_token');
+      const token = getValidToken();
+      if (!token) {
+        handleUnauthorized();
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
       if (response.status === 401) {
-        localStorage.removeItem('sfcc_auth_token');
-        sessionStorage.removeItem('sfcc_auth');
-        window.location.href = 'index.html';
+        handleUnauthorized();
         return;
       }
       return await response.json();
@@ -81,20 +100,22 @@ const apiClient = {
 
   async patch(endpoint, data) {
     try {
-      const token = localStorage.getItem('sfcc_auth_token');
+      const token = getValidToken();
+      if (!token) {
+        handleUnauthorized();
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
       if (response.status === 401) {
-        localStorage.removeItem('sfcc_auth_token');
-        sessionStorage.removeItem('sfcc_auth');
-        window.location.href = 'index.html';
+        handleUnauthorized();
         return;
       }
       return await response.json();

@@ -1,32 +1,24 @@
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ success: false, message: 'Access token missing or invalid format.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  if (!token || token === 'undefined' || token === 'null' || token === '[object Object]' || token.split('.').length !== 3) {
+    return res.status(401).json({ success: false, message: 'Malformed authentication token.' });
+  }
+
   try {
-    const authHeader = req.headers.authorization;
-    let token = null;
-
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.split(' ')[1];
-    } else if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-    }
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: 'Access denied. No authentication token provided.'
-      });
-    }
-
-    const verified = jwt.verify(token, process.env.JWT_SECRET || 'sfcc_altar_servers_secret_key_2026_secure');
-    req.user = verified;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
   } catch (err) {
-    console.error('Token verification failed:', err.message);
-    return res.status(401).json({
-      success: false,
-      message: 'Invalid or expired authentication token.'
-    });
+    return res.status(401).json({ success: false, message: 'Token verification failed: ' + err.message });
   }
 };
 

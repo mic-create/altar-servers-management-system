@@ -41,17 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const data = await response.json();
 
-        if (response.ok && data.success) {
-          // CRITICAL FIX: Persist token securely under the expected key
-          if (data.token) {
-            localStorage.setItem('sfcc_auth_token', data.token);
-          }
+        if (response.ok && data.success && typeof data.token === 'string') {
+          localStorage.setItem('sfcc_auth_token', data.token);
           sessionStorage.setItem('sfcc_auth', 'true');
           window.location.href = 'dashboard.html';
         } else {
           if (errorAlert) {
             errorAlert.style.display = 'block';
-            errorAlert.textContent = data.message || 'Invalid administrator credentials.';
+            errorAlert.textContent = data.message || 'Invalid administrator credentials or token format.';
           }
         }
       } catch (err) {
