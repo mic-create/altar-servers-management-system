@@ -1,60 +1,52 @@
 // FILE: backend/server.js
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
-path = require('path');
+require('dotenv').config();
+
+const authRoutes = require('./routes/authRoutes');
+const memberRoutes = require('./routes/memberRoutes');
+const meetingRoutes = require('./routes/meetingRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
+const reportRoutes = require('./routes/reportRoutes');
 
 const app = express();
 
-// Define allowed origins for production and local development
+// Dynamic CORS configuration supporting local development and Vercel production
 const allowedOrigins = [
-  'https://sfccaltarservers.vercel.app',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
   'http://localhost:3000',
-  'http://127.0.0.1:3000'
-];
+  process.env.FRONTEND_URL
+].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (like Postman or server-to-server) or matching origins
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(newico ? new Error('Not allowed by CORS') : null, false);
     }
   },
   credentials: true
 }));
 
 app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 
-// Import application routes
-const authRoutes = require('./routes/auth');
-const memberRoutes = require('./routes/members');
-const meetingRoutes = require('./routes/meetings');
-const attendanceRoutes = require('./routes/attendance');
-const reportRoutes = require('./routes/reports');
-
-// Mount API routes
+// API Routes configuration
 app.use('/api/auth', authRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/meetings', meetingRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportRoutes);
 
-app.get('/', (req, res) => {
-  res.json({ success: true, message: 'SFCC Altar Servers API Service is running' });
+// Health check endpoint for Render deployment verification
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, status: 'healthy', timestamp: new Date().toISOString() });
 });
 
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error('Global Error Stack:', err.stack);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || 'Internal Server Error'
-  });
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'SFCC Altar Servers API is running.' });
 });
 
 const PORT = process.env.PORT || 5000;
