@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const togglePasswordBtn = document.getElementById('togglePasswordBtn');
   const errorAlert = document.getElementById('errorAlert');
 
-  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    ? 'http://127.0.0.1:5000/api' 
+    : 'https://sfcc-altar-servers-1.onrender.com/api';
 
   if (togglePasswordBtn && passwordInput) {
     togglePasswordBtn.addEventListener('click', () => {
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          credentials: 'include', // Required to receive and store HttpOnly cookie
+          credentials: 'include',
           body: JSON.stringify({
             username: 'admin',
             password: enteredPassword
@@ -40,6 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
+          // CRITICAL FIX: Persist token securely under the expected key
+          if (data.token) {
+            localStorage.setItem('sfcc_auth_token', data.token);
+          }
           sessionStorage.setItem('sfcc_auth', 'true');
           window.location.href = 'dashboard.html';
         } else {
