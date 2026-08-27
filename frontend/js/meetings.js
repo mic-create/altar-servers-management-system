@@ -1,11 +1,14 @@
 // FILE: frontend/js/meetings.js
 document.addEventListener('DOMContentLoaded', () => {
-  if (!sessionStorage.getItem('sfcc_auth')) {
+  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+  if (!token) {
     window.location.href = 'index.html';
     return;
   }
 
-  const API_BASE = window.API_BASE || 'https://altar-servers-management-system.onrender.com/api';
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    ? 'http://127.0.0.1:5000/api' 
+    : 'https://altar-servers-management-system.onrender.com/api';
 
   const logoutBtn = document.getElementById('logoutBtn');
   const upcomingCard = document.getElementById('upcomingCard');
@@ -31,10 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
       try {
-        await fetch(`${API_BASE}/auth/logout`, { method: 'POST', credentials: 'include' });
+        await fetch(`${API_BASE}/auth/logout`, { 
+          method: 'POST', 
+          headers: { 'Authorization': `Bearer ${token}` },
+          credentials: 'include' 
+        });
       } catch (err) {
         console.error('Logout error:', err);
       } finally {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
       }
@@ -70,9 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchMeetings() {
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
-      const res = await fetch(`${API_BASE}/meetings`, { credentials: 'include' });
+      const res = await fetch(`${API_BASE}/meetings`, { 
+        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
+        credentials: 'include' 
+      });
       if (res.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
@@ -233,9 +246,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function updateCalculatedDatePreview() {
     if (!modalMonthSelect || !modalMonthSelect.value) return;
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
       const { year, month } = JSON.parse(modalMonthSelect.value);
-      const res = await fetch(`${API_BASE}/meetings/calculate?year=${year}&month=${month}`, { credentials: 'include' });
+      const res = await fetch(`${API_BASE}/meetings/calculate?year=${year}&month=${month}`, { 
+        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
+        credentials: 'include' 
+      });
       const json = await res.json();
       if (json.success) {
         hiddenMeetingDate.value = json.date;
@@ -266,16 +283,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const title = modalTitleInput.value.trim();
       const description = modalDescInput.value.trim();
       const scheduled_at = hiddenScheduledAt.value;
+      const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
 
       try {
         const res = await fetch(`${API_BASE}/meetings`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentAuthToken}`
+          },
           credentials: 'include',
           body: JSON.stringify({ title, description, scheduled_at })
         });
 
         if (res.status === 401) {
+          localStorage.removeItem('sfcc_auth_token');
           sessionStorage.removeItem('sfcc_auth');
           window.location.href = 'index.html';
           return;

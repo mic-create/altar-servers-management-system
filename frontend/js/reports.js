@@ -16,12 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (!sessionStorage.getItem('sfcc_auth')) {
+  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+  if (!token) {
     window.location.href = 'index.html';
     return;
   }
 
-  const API_BASE = window.API_BASE || 'https://altar-servers-management-system.onrender.com/api';
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    ? 'http://127.0.0.1:5000/api' 
+    : 'https://altar-servers-management-system.onrender.com/api';
 
   const loadingState = document.getElementById('loadingState');
   const errorState = document.getElementById('errorState');
@@ -32,16 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let reportDataCache = null;
 
   async function fetchReports() {
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
       if (loadingState) loadingState.style.display = 'block';
       if (errorState) errorState.style.display = 'none';
       if (reportsDashboard) reportsDashboard.style.display = 'none';
 
       const response = await fetch(`${API_BASE}/reports`, { 
+        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
         credentials: 'include' 
       });
 
       if (response.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;

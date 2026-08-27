@@ -1,11 +1,14 @@
 // FILE: frontend/js/members.js
 document.addEventListener('DOMContentLoaded', () => {
-  if (!sessionStorage.getItem('sfcc_auth')) {
+  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+  if (!token) {
     window.location.href = 'index.html';
     return;
   }
 
-  const API_BASE = window.API_BASE || 'https://altar-servers-management-system.onrender.com/api';
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    ? 'http://127.0.0.1:5000/api' 
+    : 'https://altar-servers-management-system.onrender.com/api';
 
   let currentStatusFilter = 'active';
   let currentSearchQuery = '';
@@ -45,10 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
       try {
-        await fetch(`${API_BASE}/auth/logout`, { method: 'POST', credentials: 'include' });
+        await fetch(`${API_BASE}/auth/logout`, { 
+          method: 'POST', 
+          headers: { 'Authorization': `Bearer ${token}` },
+          credentials: 'include' 
+        });
       } catch (err) {
         console.error('Logout error:', err);
       } finally {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
       }
@@ -56,9 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchStatistics() {
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
-      const res = await fetch(`${API_BASE}/members?status=all`, { credentials: 'include' });
+      const res = await fetch(`${API_BASE}/members?status=all`, { 
+        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
+        credentials: 'include' 
+      });
       if (res.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
@@ -80,15 +93,21 @@ document.addEventListener('DOMContentLoaded', () => {
     memberTableBody.innerHTML = '';
     emptyState.style.display = 'none';
 
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+
     try {
       let url = `${API_BASE}/members?status=${currentStatusFilter}`;
       if (currentSearchQuery.trim() !== '') {
         url += `&search=${encodeURIComponent(currentSearchQuery.trim())}`;
       }
 
-      const res = await fetch(url, { credentials: 'include' });
+      const res = await fetch(url, { 
+        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
+        credentials: 'include' 
+      });
       
       if (res.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
@@ -216,16 +235,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const isEdit = Boolean(id);
       const endpoint = isEdit ? `${API_BASE}/members/${id}` : `${API_BASE}/members`;
       const method = isEdit ? 'PUT' : 'POST';
+      const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
 
       try {
         const res = await fetch(endpoint, {
           method: method,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentAuthToken}`
+          },
           credentials: 'include',
           body: JSON.stringify({ full_name: fullName })
         });
 
         if (res.status === 401) {
+          localStorage.removeItem('sfcc_auth_token');
           sessionStorage.removeItem('sfcc_auth');
           window.location.href = 'index.html';
           return;
@@ -262,15 +286,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmActionCallback = async () => {
       const newStatus = isActivating ? 'active' : 'inactive';
+      const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
       try {
         const res = await fetch(`${API_BASE}/members/${id}/status`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentAuthToken}`
+          },
           credentials: 'include',
           body: JSON.stringify({ status: newStatus })
         });
         
         if (res.status === 401) {
+          localStorage.removeItem('sfcc_auth_token');
           sessionStorage.removeItem('sfcc_auth');
           window.location.href = 'index.html';
           return;
