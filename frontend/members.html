@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Altar Servers Registry — SFCC Management System</title>
+  <title>Altar Servers Registry - SFCC Attendance Management System</title>
+  <!-- Google Fonts for High-End Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <body class="members-page">
   <div class="app-container">
     
-    <!-- Mobile Header Navigation -->
+    <!-- Mobile Navigation Bar -->
     <header class="mobile-nav-bar">
       <div class="mobile-brand">
         <div class="logo-container">
@@ -32,7 +33,7 @@
 
     <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-    <!-- Main Enterprise Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="brand-wrapper">
@@ -80,6 +81,7 @@
     <!-- Main Workspace -->
     <main class="main-content">
       
+      <!-- Top Utility Header Bar -->
       <div class="top-bar">
         <div class="system-meta">
           <span class="status-dot"></span>
@@ -94,6 +96,7 @@
         </div>
       </div>
 
+      <!-- Page Banner / Title -->
       <header class="content-header">
         <div class="header-titles">
           <div class="breadcrumb">Registry &bull; Official Membership Roster</div>
@@ -141,7 +144,7 @@
         </div>
       </section>
 
-      <!-- Search & Filter Controls -->
+      <!-- Search & Filter Controls Toolbar -->
       <section class="controls-section">
         <div class="search-box">
           <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -158,7 +161,7 @@
         </div>
       </section>
 
-      <!-- Directory Table -->
+      <!-- Member Directory Table Wrapper -->
       <section class="registry-card">
         <div class="registry-card-header">
           <div class="registry-header-title">
@@ -167,6 +170,7 @@
             </div>
             <h3>DIRECTORY ROSTER</h3>
           </div>
+          <span class="registry-count-badge" id="registryBadge">0 Total Roster</span>
         </div>
 
         <div class="table-container">
@@ -185,11 +189,13 @@
             </tbody>
           </table>
 
+          <!-- Skeleton/Loading Overlay -->
           <div id="loadingState" class="state-message">
             <div class="loading-spinner"></div>
             <span>Loading altar servers registry...</span>
           </div>
 
+          <!-- Empty Directory Message -->
           <div id="emptyState" class="state-message" style="display: none;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <h4>No Altar Servers Found</h4>
@@ -201,7 +207,7 @@
     </main>
   </div>
 
-  <!-- Modal Dialog: Add / Edit Member -->
+  <!-- Modal Dialog: Add / Edit Altar Server -->
   <div id="memberModal" class="modal-backdrop" style="display: none;">
     <div class="modal-card">
       <div class="modal-header">
@@ -242,6 +248,7 @@
     </div>
   </div>
 
+  <!-- System Toast Notification -->
   <div id="toast" class="toast" style="display: none;"></div>
 
   <script src="js/config.js"></script>
