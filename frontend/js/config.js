@@ -4,8 +4,8 @@ const getApiBaseUrl = () => {
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'http://localhost:5000/api';
   }
-  // Replace with your actual Render backend URL or inject via deployment build variables
-  return 'https://your-backend-name.onrender.com/api';
+  // Production Render Backend URL
+  return 'https://altar-servers-management-system.onrender.com/api';
 };
 
 window.API_BASE = getApiBaseUrl();
