@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Use the global API_BASE from config.js with a safe fallback
+  // Use global API_BASE from config.js with safe fallback
   const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStatusFilter = 'active';
   let currentSearchQuery = '';
   let confirmActionCallback = null;
-  // ... rest of your code ...
 
   const memberTableBody = document.getElementById('memberTableBody');
   const loadingState = document.getElementById('loadingState');
@@ -33,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const memberNameInput = document.getElementById('memberNameInput');
   const openAddModalBtn = document.getElementById('openAddModalBtn');
   const closeModalBtn = document.getElementById('closeModalBtn');
+  const closeModalCrossBtn = document.getElementById('closeModalCrossBtn');
   const modalError = document.getElementById('modalError');
 
   const confirmModal = document.getElementById('confirmModal');
@@ -43,6 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toast = document.getElementById('toast');
   const logoutBtn = document.getElementById('logoutBtn');
+
+  // Mobile Navigation Controls
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  if (mobileMenuToggle && sidebar && sidebarOverlay) {
+    mobileMenuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('mobile-open');
+      sidebarOverlay.classList.toggle('mobile-open');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('mobile-open');
+      sidebarOverlay.classList.remove('mobile-open');
+    });
+  }
 
   fetchMembers();
   fetchStatistics();
@@ -213,6 +230,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (closeModalBtn) {
     closeModalBtn.addEventListener('click', () => {
+      memberModal.style.display = 'none';
+    });
+  }
+
+  if (closeModalCrossBtn) {
+    closeModalCrossBtn.addEventListener('click', () => {
       memberModal.style.display = 'none';
     });
   }
