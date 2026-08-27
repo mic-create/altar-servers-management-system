@@ -6,13 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+  // Use the global API_BASE from config.js with a safe fallback
+  const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
-    : 'https://altar-servers-management-system.onrender.com/api';
+    : 'https://altar-servers-management-system.onrender.com/api');
 
   let currentStatusFilter = 'active';
   let currentSearchQuery = '';
   let confirmActionCallback = null;
+  // ... rest of your code ...
 
   const memberTableBody = document.getElementById('memberTableBody');
   const loadingState = document.getElementById('loadingState');
