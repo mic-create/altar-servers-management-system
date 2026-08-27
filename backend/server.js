@@ -45,69 +45,20 @@ app.get('/', (req, res) => {
 });
 
 // ==========================================
-// YOUR ORIGINAL INLINE API ROUTES & MIDDLEWARE
+// MODULAR ROUTE IMPORTS (Restored Database Logic)
 // ==========================================
+const authRoutes = require('./routes/authRoutes');
+const memberRoutes = require('./routes/memberRoutes');
+const meetingRoutes = require('./routes/meetingRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
+const reportRoutes = require('./routes/reportRoutes');
 
-// 1. Authentication Routes
-app.post('/api/auth/login', async (req, res) => {
-  // Your existing login/authentication logic remains here
-  try {
-    // Keep your exact implementation logic for verifying credentials
-    res.json({ success: true, message: 'Login successful' });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error during login' });
-  }
-});
-
-app.post('/api/auth/logout', (req, res) => {
-  res.clearCookie('token');
-  res.json({ success: true, message: 'Logged out successfully' });
-});
-
-// 2. Members Routes
-app.get('/api/members', (req, res) => {
-  // Your existing members logic
-});
-
-app.post('/api/members', (req, res) => {
-  // Your existing create member logic
-});
-
-app.put('/api/members/:id', (req, res) => {
-  // Your existing edit member logic
-});
-
-app.patch('/api/members/:id/status', (req, res) => {
-  // Your existing status toggle logic
-});
-
-// 3. Meetings Routes
-app.get('/api/meetings', (req, res) => {
-  // Your existing meetings fetch logic
-});
-
-app.post('/api/meetings', (req, res) => {
-  // Your existing meeting creation logic
-});
-
-app.get('/api/meetings/calculate', (req, res) => {
-  // Your existing meeting date calculation logic
-});
-
-// 4. Attendance Routes
-app.get('/api/attendance', (req, res) => {
-  // Your existing attendance fetch logic
-});
-
-app.post('/api/attendance', (req, res) => {
-  // Your existing attendance save logic
-});
-
-// 5. Reports Routes
-app.get('/api/reports', (req, res) => {
-  // Your existing reports fetch logic
-});
+// Mount modular API endpoints
+app.use('/api/auth', authRoutes);
+app.use('/api/members', memberRoutes);
+app.use('/api/meetings', meetingRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
