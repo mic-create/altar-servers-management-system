@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altar Servers Registry - SFCC Attendance Management System</title>
+  <!-- Google Fonts for High-End Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/members.css">
+  <link rel="icon" type="image/png" href="assets/images/st-john-berchmans.png">
+</head>
+<body class="members-page">
+  <div class="app-container">
+    
+    <!-- Mobile Navigation Bar -->
+    <header class="mobile-nav-bar">
+      <div class="mobile-brand">
+        <div class="logo-container">
+          <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="mobile-logo" onerror="this.style.display='none'">
+        </div>
+        <span class="mobile-brand-title">SFCC Altar Servers</span>
+      </div>
+      <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="logo-container">
+            <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="sidebar-logo" onerror="this.style.display='none'">
+          </div>
+          <div class="brand-details">
+            <h2 class="brand-title">Association of Altar Servers</h2>
+            <p class="church-sub">St. Francis Catholic Church, Idimu</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="members.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Members</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Meetings & Services</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span>Attendance</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Reports</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="logout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      
+      <!-- Top Utility Header Bar -->
+      <div class="top-bar">
+        <div class="system-meta">
+          <span class="status-dot"></span>
+          <span class="meta-label">Altar Servers Membership Information System</span>
+        </div>
+        <div class="user-profile">
+          <div class="avatar-badge">AD</div>
+          <div class="user-info">
+            <span class="user-name">Administrator</span>
+            <span class="user-role">SFCC Executive Council</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Banner / Title -->
+      <header class="content-header">
+        <div class="header-titles">
+          <div class="breadcrumb">Registry &bull; Official Membership Roster</div>
+          <h1>Altar Servers Registry</h1>
+          <p class="subtitle">Manage and maintain the official membership record of the SFCC Association of Altar Servers.</p>
+        </div>
+        <div class="header-actions">
+          <button id="openAddModalBtn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add New Member</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Member Statistics Section -->
+      <section class="stats-grid">
+        <div class="stat-card stat-total">
+          <div class="stat-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-title">Total Registered</span>
+            <span id="statTotal" class="stat-value">--</span>
+          </div>
+        </div>
+
+        <div class="stat-card stat-active">
+          <div class="stat-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-title">Active Members</span>
+            <span id="statActive" class="stat-value">--</span>
+          </div>
+        </div>
+
+        <div class="stat-card stat-inactive">
+          <div class="stat-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-title">Inactive Members</span>
+            <span id="statInactive" class="stat-value">--</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search & Filter Controls Toolbar -->
+      <section class="controls-section">
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" placeholder="Search altar servers by name..." autocomplete="off">
+        </div>
+        
+        <div class="filter-tabs-wrapper">
+          <span class="filter-label">Filter:</span>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-status="active">Active</button>
+            <button class="filter-tab" data-status="inactive">Inactive</button>
+            <button class="filter-tab" data-status="all">All</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Member Directory Table Wrapper -->
+      <section class="registry-card">
+        <div class="registry-card-header">
+          <div class="registry-header-title">
+            <div class="header-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <h3>DIRECTORY ROSTER</h3>
+          </div>
+          <span class="registry-count-badge" id="registryBadge">0 Total Roster</span>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="col-num">#</th>
+                <th class="col-name">Altar Server Name</th>
+                <th class="col-status">Status</th>
+                <th class="col-date">Date Added</th>
+                <th class="col-actions text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="memberTableBody">
+              <!-- Dynamically Populated by members.js -->
+            </tbody>
+          </table>
+
+          <!-- Skeleton/Loading Overlay -->
+          <div id="loadingState" class="state-message">
+            <div class="loading-spinner"></div>
+            <span>Loading altar servers registry...</span>
+          </div>
+
+          <!-- Empty Directory Message -->
+          <div id="emptyState" class="state-message" style="display: none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <h4>No Altar Servers Found</h4>
+            <p>No member records match your current search or filter criteria.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal Dialog: Add / Edit Altar Server -->
+  <div id="memberModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Altar Server</h3>
+        <button type="button" class="modal-close-icon" id="closeModalCrossBtn" aria-label="Close Modal">&times;</button>
+      </div>
+      <form id="memberForm">
+        <input type="hidden" id="editMemberId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="memberNameInput">Full Member Name <span class="required">*</span></label>
+            <input type="text" id="memberNameInput" required placeholder="e.g. JOHN DOE" autocomplete="off">
+            <span class="form-hint">Enter full official surname and first name in uppercase.</span>
+          </div>
+          <div id="modalError" class="modal-error" style="display: none;"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="closeModalBtn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="saveMemberBtn" class="btn btn-primary">Save Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Dialog: Confirmation -->
+  <div id="confirmModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <h3 id="confirmTitle">Confirm Action</h3>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage" class="confirm-msg">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="cancelConfirmBtn" class="btn btn-secondary">Cancel</button>
+        <button type="button" id="proceedConfirmBtn" class="btn btn-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Toast Notification -->
+  <div id="toast" class="toast" style="display: none;"></div>
+
+  <script src="js/members.js"></script>
+</body>
+</html>

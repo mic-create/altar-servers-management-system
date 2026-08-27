@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Meetings - SFCC Altar Servers Attendance System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/meetings.css">
+  <link rel="icon" type="image/png" href="assets/images/st-john-berchmans.png">
+  
+</head>
+<body>
+  <div class="app-container">
+    <!-- Mobile Header Bar -->
+    <header class="mobile-header">
+      <div class="mobile-brand">
+        <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="mobile-logo">
+        <div>
+          <span class="mobile-title">SFCC Altar Servers</span>
+          <span class="mobile-sub">General Meetings</span>
+        </div>
+      </div>
+      <button id="mobileMenuBtn" class="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Sidebar Backdrop for Mobile -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Shared Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-container">
+          <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="sidebar-logo">
+          <div class="brand-text">
+            <h2>SFCC Altar Servers</h2>
+            <span class="church-sub">St. Francis Catholic Church, Idimu</span>
+            <span class="assoc-tag">Altar Servers Association</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="members.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Members</span>
+        </a>
+
+        <a href="meetings.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Meetings & Services</span>
+        </a>
+
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Attendance</span>
+        </a>
+
+        <a href="reports.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Reports</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="admin-avatar">SA</div>
+          <div class="admin-info">
+            <span class="admin-name">Administrator</span>
+            <span class="admin-role">Executive Board</span>
+          </div>
+        </div>
+        <button id="logoutBtn" class="logout-btn" title="Sign Out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Page Header -->
+      <header class="content-header">
+        <div class="header-titles">
+          <div class="badge-pill">
+            <span class="gold-dot"></span> Schedule & Attendance Management
+          </div>
+          <h1>General Meetings</h1>
+          <p class="subtitle">Plan, schedule, and maintain attendance records for SFCC Altar Servers Association general assemblies.</p>
+        </div>
+        <div class="header-actions">
+          <button id="openCreateModalBtn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Create General Meeting</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Key Metrics Overview Strip -->
+      <section class="stats-overview-grid">
+        <div class="stat-card">
+          <div class="stat-icon icon-upcoming">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Upcoming Meetings</span>
+            <span id="statUpcomingCount" class="stat-value">29-O8-2026</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-completed">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Completed This Year</span>
+            <span id="statCompletedCount" class="stat-value">4</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-schedule">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Recurrence Rule</span>
+            <span class="stat-value-text">Last Saturday / Month</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Upcoming Meeting Hero Spotlight -->
+      <section class="upcoming-section">
+        <div class="section-header-inline">
+          <h2>Next General Meeting</h2>
+          <span class="section-tag">Primary Event Target</span>
+        </div>
+
+        <div id="upcomingCard" class="upcoming-card-container">
+          <!-- Dynamic JS Injection Container with Skeletons -->
+          <div class="state-card loading-state">
+            <div class="spinner"></div>
+            <p>Calculating next monthly general meeting...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Past & Previous Meetings Section -->
+      <section class="previous-section">
+        <div class="section-header-inline">
+          <div>
+            <h2>Meeting History</h2>
+            <p class="section-desc">Archive of general meetings, status logs, and attendance rosters.</p>
+          </div>
+          <div class="filter-controls">
+            <input type="text" id="meetingSearchInput" class="search-input" placeholder="Filter by month, title, or status...">
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Scheduled Date & Time</th>
+                  <th>Meeting Details</th>
+                  <th>Attendance State</th>
+                  <th>Status</th>
+                  <th class="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="meetingsTableBody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Empty State Container -->
+          <div id="emptyMeetings" class="state-card empty-state" style="display: none;">
+            <div class="empty-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+                <line x1="10" y1="14" x2="14" y2="14"></line>
+              </svg>
+            </div>
+            <h3>No Previous Meetings Recorded</h3>
+            <p>There are no recorded historical general meetings in the database yet.</p>
+            <button class="btn btn-secondary trigger-create-btn">Schedule First Meeting</button>
+          </div>
+
+          <!-- Error State Container -->
+          <div id="errorMeetings" class="state-card error-state" style="display: none;">
+            <div class="error-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <h3>Unable to Load Meetings</h3>
+            <p>A network error occurred while communicating with the server database.</p>
+            <button id="retryFetchBtn" class="btn btn-secondary">Retry Connection</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Create General Meeting Modal -->
+  <div id="meetingModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">General Schedule</span>
+          <h3 id="modalTitle">Schedule General Meeting</h3>
+        </div>
+        <button type="button" id="closeModalCrossBtn" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div id="modalError" class="modal-error" style="display: none;"></div>
+
+      <form id="meetingForm" class="modal-form">
+        <div class="form-group">
+          <label for="modalMonthSelect">Target Month & Year</label>
+          <div class="select-wrapper">
+            <select id="modalMonthSelect" class="form-control" required>
+              <!-- Populated via JS -->
+            </select>
+          </div>
+          <span class="form-help-text">Automatically targets the Last Saturday of the selected month.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="modalTimeInput">Meeting Time</label>
+            <input type="time" id="modalTimeInput" class="form-control" value="10:00" required>
+          </div>
+          <div class="form-group flex-2">
+            <label for="modalCalculatedDateDisplay">Calculated Saturday Date</label>
+            <input type="text" id="modalCalculatedDateDisplay" readonly class="form-control readonly-input" placeholder="Calculating date...">
+          </div>
+        </div>
+
+        <!-- Mandatory hidden fields required by existing meetings.js backend connectors -->
+        <input type="hidden" id="hiddenMeetingDate">
+        <input type="hidden" id="hiddenScheduledAt">
+
+        <div class="form-group">
+          <label for="modalTitleInput">Meeting Title</label>
+          <input type="text" id="modalTitleInput" class="form-control" value="General Meeting" required placeholder="e.g. Monthly General Meeting">
+        </div>
+
+        <div class="form-group">
+          <label for="modalDescInput">Meeting Agenda / Description (Optional)</label>
+          <textarea id="modalDescInput" class="form-control textarea-control" rows="3" placeholder="e.g. Monthly general meeting, liturgy review, and vestment inspections."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="closeModalBtn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="submitMeetingBtn" class="btn btn-primary">
+            <span>Confirm & Create Meeting</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toast" class="toast-notification" style="display: none;">
+    <div class="toast-icon"></div>
+    <div class="toast-message" id="toastMessage">Action completed successfully.</div>
+  </div>
+
+  <script src="js/meetings.js"></script>
+</body>
+</html>

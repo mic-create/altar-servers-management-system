@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Register | SFCC Altar Servers Association</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/attendance.css">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-container">
+    <!-- Mobile Header Bar -->
+    <header class="mobile-header">
+      <div class="mobile-brand">
+        <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="mobile-logo">
+        <div>
+          <span class="mobile-title">SFCC Altar Servers</span>
+          <span class="mobile-sub">Attendance Register</span>
+        </div>
+      </div>
+      <button id="mobileMenuBtn" class="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Sidebar Backdrop for Mobile -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Shared Application Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-container">
+          <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="sidebar-logo">
+          <div class="brand-text">
+            <h2>SFCC Altar Servers</h2>
+            <span class="church-sub">St. Francis Catholic Church, Idimu</span>
+            <span class="assoc-tag">Altar Servers Association</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="members.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Altar Servers</span>
+        </a>
+
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Meetings & Services</span>
+        </a>
+
+        <a href="attendance.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Attendance Sheet</span>
+        </a>
+
+        <a href="reports.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Reports</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="admin-avatar">SA</div>
+          <div class="admin-info">
+            <span class="admin-name">Administrator</span>
+            <span class="admin-role">Executive Board</span>
+          </div>
+        </div>
+        <button id="logoutBtn" class="logout-btn" title="Sign Out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Content Top Header -->
+      <header class="content-header">
+        <div class="header-titles">
+          <a href="meetings.html" class="link-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Meetings</span>
+          </a>
+          <h1>Attendance Register</h1>
+          <p class="subtitle">Official general assembly roster for St. Francis Catholic Church, Idimu.</p>
+        </div>
+        <div class="header-user">
+          <span class="user-badge">
+            <span class="badge-dot"></span> Executive Officer
+          </span>
+        </div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- Meeting Context Hero Card -->
+        <section class="meeting-hero-card" id="meetingInfoCard">
+          <div class="state-card loading-state" id="meetingInfoLoader">
+            <div class="spinner"></div>
+            <p>Loading meeting record details...</p>
+          </div>
+        </section>
+
+        <!-- Live Metrics Overview Grid -->
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-total">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="stat-details">
+              <span class="stat-label">Total Servers</span>
+              <span class="stat-value" id="statTotal">--</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-present">
+            <div class="stat-icon icon-present">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="stat-details">
+              <span class="stat-label">Present</span>
+              <span class="stat-value" id="statPresent">0</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-absent">
+            <div class="stat-icon icon-absent">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div class="stat-details">
+              <span class="stat-label">Absent</span>
+              <span class="stat-value" id="statAbsent">0</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-unmarked">
+            <div class="stat-icon icon-unmarked">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div class="stat-details">
+              <span class="stat-label">Unmarked</span>
+              <span class="stat-value" id="statUnmarked">--</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Attendance Completion Progress Bar -->
+        <section class="progress-section card">
+          <div class="progress-header">
+            <span class="progress-title">Roster Completion</span>
+            <div class="progress-status-meta">
+              <span id="progressText" class="progress-count">0 / 61 marked</span>
+              <span id="progressPercentage" class="progress-percent">0%</span>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+        </section>
+
+        <!-- Operational Action Toolbar -->
+        <section class="toolbar-section card">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search altar server by name..." class="form-control">
+          </div>
+          <div class="action-buttons">
+            <button type="button" id="markAllBtn" class="btn btn-secondary" title="Mark every active server present">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Mark All Present</span>
+            </button>
+            <button type="button" id="clearAllBtn" class="btn btn-outline" title="Clear status selections">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Clear All</span>
+            </button>
+            <button type="button" id="saveAttendanceBtn" class="btn btn-primary" title="Commit attendance changes">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              <span>Save Attendance</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Member Attendance Register Container -->
+        <section class="table-card card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">No.</th>
+                  <th>Altar Server Name</th>
+                  <th style="width: 160px;">Status</th>
+                  <th style="width: 240px; text-align: right;">Attendance Action</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceTableBody">
+                <!-- Dynamically populated via attendance.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="state-card loading-state">
+            <div class="spinner"></div>
+            <p>Loading active altar servers register...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="state-card error-state" style="display: none;">
+            <div class="error-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <h3>Unable to Load Attendance Register</h3>
+            <p id="errorText">Unable to retrieve server data from backend server.</p>
+            <button id="retryBtn" class="btn btn-secondary">Retry Connection</button>
+          </div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="state-card empty-state" style="display: none;">
+            <div class="empty-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <line x1="17" y1="8" x2="23" y2="14"></line>
+                <line x1="23" y1="8" x2="17" y2="14"></line>
+              </svg>
+            </div>
+            <h3>No Active Altar Servers Found</h3>
+            <p>There are no active altar server records registered in the system database.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toast" class="toast-notification" style="display: none;"></div>
+
+  <script src="js/attendance.js"></script>
+</body>
+</html>

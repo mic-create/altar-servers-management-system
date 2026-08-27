@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Analytics | SFCC Altar Servers Association, Idimu</title>
+  <link rel="stylesheet" href="css/reports.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Mobile Top Bar -->
+  <header class="mobile-header">
+    <div class="mobile-brand">
+      <img src="assets/images/sfcc-logo.png" alt="SFCC Emblem" class="mobile-logo">
+      <div class="mobile-title">
+        <span class="brand-name">SFCC Altar Servers</span>
+        <span class="brand-sub">Idimu, Lagos</span>
+      </div>
+    </div>
+    <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle Navigation">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/images/sfcc-logo.png" alt="St. Francis Catholic Church, Idimu" class="sidebar-logo">
+        <div class="brand-text">
+          <h2 class="brand-heading">SFCC Altar Servers</h2>
+          <p class="brand-subtext">St. Francis Catholic Church, Idimu</p>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Members</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Meetings</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Attendance</span>
+        </a>
+        <a href="reports.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Reports</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="signOutBtn" class="btn-signout">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-title">
+          <div class="header-badge">Administrative Reporting</div>
+          <h1>Analytics & Reports</h1>
+          <p>St. Francis Catholic Church, Idimu • Association of Altar Servers</p>
+        </div>
+        <div class="header-actions">
+          <button id="printReportBtn" class="btn btn-secondary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Print Report</span>
+          </button>
+          <button id="exportCsvBtn" class="btn btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- Loading & Error States -->
+        <div id="loadingState" class="state-container">
+          <div class="spinner"></div>
+          <p class="state-title">Retrieving Official Records...</p>
+          <p class="state-sub">Connecting to institutional database</p>
+        </div>
+
+        <div id="errorState" class="state-container error-state" style="display: none;">
+          <svg class="state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p id="errorMessage" class="state-title">Unable to load reports.</p>
+          <button id="retryBtn" class="btn btn-primary" style="margin-top: 16px;">Retry Connection</button>
+        </div>
+
+        <!-- Main Reports Dashboard -->
+        <div id="reportsDashboard" style="display: none;">
+
+          <!-- 1. SUMMARY METRICS CARDS -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Total Altar Servers</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+              </div>
+              <h3 id="statTotalMembers" class="metric-value">0</h3>
+              <span class="metric-trend">Active registered members</span>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Total General Meetings</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                </div>
+              </div>
+              <h3 id="statTotalMeetings" class="metric-value">0</h3>
+              <span class="metric-trend">Recorded assembly sessions</span>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Total Present Records</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+              </div>
+              <h3 id="statTotalPresent" class="metric-value">0</h3>
+              <span class="metric-trend">Cumulative presence counts</span>
+            </div>
+
+            <div class="metric-card accent-card">
+              <div class="metric-header">
+                <span class="metric-label">Overall Attendance Rate</span>
+                <div class="metric-icon-wrap gold-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </div>
+              </div>
+              <h3 id="statOverallRate" class="metric-value">0%</h3>
+              <span class="metric-trend">System-wide performance</span>
+            </div>
+          </div>
+
+          <!-- 2. MEMBER ATTENDANCE STATISTICS TABLE -->
+          <section class="report-section">
+            <div class="section-header-flex">
+              <div>
+                <h2>Altar Server Performance Summary</h2>
+                <p>Individual attendance records across all recorded meetings.</p>
+              </div>
+              <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="memberSearchInput" placeholder="Search altar server name..." class="form-control">
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" id="memberStatsTable">
+                <thead>
+                  <tr>
+                    <th style="width: 80px;">No.</th>
+                    <th>Altar Server Name</th>
+                    <th class="text-center">Meetings Attended</th>
+                    <th class="text-center">Meetings Absent</th>
+                    <th class="text-right">Attendance Rate</th>
+                  </tr>
+                </thead>
+                <tbody id="memberStatsTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 3. MEETING HISTORY & BREAKDOWN REPORT -->
+          <section class="report-section">
+            <div class="section-header-flex">
+              <div>
+                <h2>Meeting History & Breakdown</h2>
+                <p>Detailed attendance outcomes sorted from newest to oldest.</p>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" id="meetingHistoryTable">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Meeting Title</th>
+                    <th class="text-center">Present</th>
+                    <th class="text-center">Absent</th>
+                    <th class="text-center">Attendance Rate</th>
+                    <th class="text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="meetingHistoryTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MEETING DETAIL MODAL -->
+  <div id="meetingModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalMeetingTitle">Meeting Attendance Report</h3>
+          <p id="modalMeetingMeta" class="modal-meta"></p>
+        </div>
+        <button id="closeModalBtn" class="close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="table-container modal-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Altar Server</th>
+                <th class="text-right">Status</th>
+              </tr>
+            </thead>
+            <tbody id="modalAttendanceBody">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalCloseActionBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

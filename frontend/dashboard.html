@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | SFCC Altar Servers Attendance System</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="icon" type="image/png" href="assets/images/st-john-berchmans.png">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-frame">
+          <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="sidebar-logo" onerror="this.style.display='none'">
+        </div>
+        <div class="sidebar-brand-text">
+          <span class="brand-title">SFCC ALTAR SERVERS</span>
+          <span class="brand-subtitle">Attendance System</span>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Members</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span>Attendance</span>
+        </a>
+        <a href="meetings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Meetings</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Reports</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="nav-item logout-link" id="logoutBtn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Navigation Header -->
+      <header class="main-header">
+        <div class="header-title-area">
+          <h1 class="page-title">Executive Dashboard</h1>
+          <p class="page-subtitle">St. Francis Catholic Church, Idimu — Altar Servers Association Portal</p>
+        </div>
+        <div class="header-actions">
+          <div class="user-profile-badge">
+            <div class="avatar-circle">AD</div>
+            <div class="user-details">
+              <span class="user-name">Administrator</span>
+              <span class="user-role">Executive</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <!-- Executive Welcome Banner -->
+        <section class="welcome-banner">
+          <div class="welcome-text-wrapper">
+            <span class="banner-badge">Executive Portal</span>
+            <h2>Peace Be With You, Administrator</h2>
+            <p>Welcome to the management interface. System records currently track 61 altar servers registered under the St. Francis Catholic Church sanctuary ministry.</p>
+          </div>
+          <div class="welcome-media">
+            <img src="assets/images/st-john-berchmans.png" alt="Association Crest" class="banner-crest" onerror="this.style.display='none'">
+          </div>
+        </section>
+
+        <!-- Dynamic Statistics Metric Cards -->
+        <section class="stats-grid" aria-label="System Metrics">
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Total Altar Servers</span>
+              <div class="stat-icon-wrapper icon-gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="totalServers">62</div>
+            <div class="stat-footer">
+              <span class="stat-meta text-neutral">Active roster count</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Present Today</span>
+              <div class="stat-icon-wrapper icon-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="presentToday">NIL</div>
+            <div class="stat-footer">
+              <span class="stat-meta text-success">Last general roll call</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Absent Today</span>
+              <div class="stat-icon-wrapper icon-danger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="absentToday">NIL</div>
+            <div class="stat-footer">
+              <span class="stat-meta text-danger">Excused & unexcused</span>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Attendance Rate</span>
+              <div class="stat-icon-wrapper icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="attendanceRate">NIL</div>
+            <div class="stat-footer">
+              <span class="stat-meta text-neutral">Overall quarterly average</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Dynamic Content Layout Grid -->
+        <div class="dashboard-content-grid">
+          <!-- Recent Meetings & Assemblies -->
+          <section class="content-card main-table-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3>Recent Assemblies & Roll Calls</h3>
+                <p>System attendance records logged for liturgical meetings</p>
+              </div>
+              <a href="meetings.html" class="btn-text-link">View All Meetings &rarr;</a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Meeting Title</th>
+                    <th>Date</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentMeetingsTable">
+                  <tr>
+                    <td>Sunday Mass & Weekly Practice</td>
+                    <td>2026-08-23</td>
+                    <td><span class="badge badge-success">56</span></td>
+                    <td><span class="badge badge-danger">5</span></td>
+                    <td><span class="status-pill pill-complete">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Solemnity Meeting & General Cleaning</td>
+                    <td>2026-08-16</td>
+                    <td><span class="badge badge-success">52</span></td>
+                    <td><span class="badge badge-danger">9</span></td>
+                    <td><span class="status-pill pill-complete">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Monthly Executive & General Assembly</td>
+                    <td>2026-08-09</td>
+                    <td><span class="badge badge-success">58</span></td>
+                    <td><span class="badge badge-danger">3</span></td>
+                    <td><span class="status-pill pill-complete">Completed</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Executive Side Controls -->
+          <aside class="dashboard-sidebar-column">
+            <!-- Quick Action Triggers -->
+            <div class="content-card actions-card">
+              <div class="card-header">
+                <h3>Quick Administrative Actions</h3>
+              </div>
+              <div class="actions-grid">
+                <a href="members.html" class="action-btn">
+                  <div class="action-icon icon-gold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                  </div>
+                  <div class="action-text">
+                    <span class="action-title">Manage Roster</span>
+                    <span class="action-desc">Add or update altar servers</span>
+                  </div>
+                </a>
+
+                <a href="attendance.html" class="action-btn">
+                  <div class="action-icon icon-success">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                  </div>
+                  <div class="action-text">
+                    <span class="action-title">Take Attendance</span>
+                    <span class="action-desc">Record meeting attendance</span>
+                  </div>
+                </a>
+
+                <a href="meetings.html" class="action-btn">
+                  <div class="action-icon icon-blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                  </div>
+                  <div class="action-text">
+                    <span class="action-title">Create Meeting</span>
+                    <span class="action-desc">Schedule new assembly</span>
+                  </div>
+                </a>
+
+                <a href="reports.html" class="action-btn">
+                  <div class="action-icon icon-purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                  </div>
+                  <div class="action-text">
+                    <span class="action-title">Generate Reports</span>
+                    <span class="action-desc">Export monthly summary</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Institutional Information Card -->
+            <div class="content-card info-card">
+              <div class="info-card-header">
+                <img src="assets/images/altar-servers.png" alt="Altar Sanctuary" class="info-card-img" onerror="this.style.display='none'">
+                <div class="info-card-overlay"></div>
+                <span class="info-card-tag">Sanctuary Discipline</span>
+              </div>
+              <div class="info-card-body">
+                <h4>Association Motto</h4>
+                <p>OBSERVE ....... JUDGE ....... ACT</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

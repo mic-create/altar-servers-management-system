@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | SFCC Altar Servers Attendance Management System</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="icon" type="image/png" href="assets/images/st-john-berchmans.png">
+</head>
+<body>
+  <!-- Full-Viewport Visual Foundation -->
+  <div class="background-viewport">
+    <div class="bg-image-layer"></div>
+    <div class="cinematic-overlay"></div>
+    <div class="ambient-glow glow-top"></div>
+    <div class="ambient-glow glow-bottom"></div>
+    <div class="grid-pattern-overlay"></div>
+  </div>
+
+  <!-- Central Immersive Composition -->
+  <main class="portal-container">
+    <div class="luxury-card">
+      <div class="light-sweep-effect"></div>
+
+      <!-- Institutional Branding Header -->
+      <header class="portal-header">
+        <div class="brand-emblem-wrapper">
+          <img 
+            src="assets/images/sfcc-logo.png" 
+            alt="SFCC Logo" 
+            class="brand-logo primary-logo" 
+            onerror="this.style.display='none'"
+          >
+          <img 
+            src="assets/images/st-john-berchmans.png" 
+            alt="Altar Servers Logo" 
+            class="brand-logo secondary-logo" 
+            onerror="this.style.display='none'"
+          >
+        </div>
+        
+        <span class="system-badge">Ecclesiastical Portal</span>
+        <h1 class="church-title">St. Francis Catholic Church</h1>
+        <p class="location-subtitle">Idimu, Lagos</p>
+        
+        <div class="ecclesiastical-divider">
+          <span class="divider-line"></span>
+          <span class="divider-diamond">◆</span>
+          <span class="divider-line"></span>
+        </div>
+
+        <h2 class="association-title">Altar Servers Association</h2>
+        <p class="system-title">Attendance Management System</p>
+      </header>
+
+      <!-- Error State Component -->
+      <div id="errorAlert" class="error-message" role="alert" aria-live="assertive">
+        Invalid administrator credentials. Please check and try again.
+      </div>
+
+      <!-- Authentication Form -->
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="adminPassword" class="form-label">Administrative Security Access</label>
+          <div class="input-with-icon">
+            <input 
+              type="password" 
+              id="adminPassword" 
+              class="form-input"
+              placeholder="Enter passphrase" 
+              required 
+              autocomplete="current-password"
+            >
+            <button 
+              type="button" 
+              id="togglePasswordBtn" 
+              class="toggle-password" 
+              aria-label="Toggle password visibility"
+            >Show</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <span class="btn-text">Authenticate Access</span>
+          <span class="btn-shine"></span>
+        </button>
+      </form>
+
+      <!-- Status Footer -->
+      <footer class="portal-footer">
+        <span class="security-status"><span class="status-dot"></span> Encrypted Administrative Channel</span>
+      </footer>
+    </div>
+  </main>
+
+  <!-- JavaScript Integration -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
