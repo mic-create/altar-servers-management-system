@@ -2,7 +2,7 @@
 // API configuration utility layer connected to backend
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
   ? 'http://127.0.0.1:5000/api' 
-  : 'https://sfcc-altar-servers-1.onrender.com/api';
+  : 'https://altar-servers-management-system.onrender.com/api';
 
 const apiClient = {
   async get(endpoint) {

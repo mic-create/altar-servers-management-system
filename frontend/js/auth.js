@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
-    : 'https://sfcc-altar-servers-1.onrender.com/api';
+    : 'https://altar-servers-management-system.onrender.com/api';
 
   if (togglePasswordBtn && passwordInput) {
     togglePasswordBtn.addEventListener('click', () => {
