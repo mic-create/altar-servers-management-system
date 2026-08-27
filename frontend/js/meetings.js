@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'https://altar-servers-management-system.onrender.com/api';
 
   const logoutBtn = document.getElementById('logoutBtn');
   const upcomingCard = document.getElementById('upcomingCard');

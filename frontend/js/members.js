@@ -1,12 +1,11 @@
 // FILE: frontend/js/members.js
 document.addEventListener('DOMContentLoaded', () => {
-  // Authentication Guard Check
   if (!sessionStorage.getItem('sfcc_auth')) {
     window.location.href = 'index.html';
     return;
   }
 
-  const API_BASE = window.API_BASE || 'http://localhost:5000/api';
+  const API_BASE = window.API_BASE || 'https://altar-servers-management-system.onrender.com/api';
 
   let currentStatusFilter = 'active';
   let currentSearchQuery = '';
