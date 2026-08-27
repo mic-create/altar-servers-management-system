@@ -3,22 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | SFCC Altar Servers Attendance System</title>
+  <title>Dashboard | SFCC Altar Servers Management System</title>
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="icon" type="image/png" href="assets/images/st-john-berchmans.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="app-layout">
+    <!-- Sidebar Mobile Backdrop -->
+    <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
     <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="appSidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo-frame">
           <img src="assets/images/sfcc-logo.png" alt="SFCC Logo" class="sidebar-logo" onerror="this.style.display='none'">
         </div>
         <div class="sidebar-brand-text">
-          <span class="brand-title">SFCC ALTAR SERVERS</span>
-          <span class="brand-subtitle">Attendance System</span>
+          <span class="brand-title">ST. FRANCIS CATHOLIC CHURCH</span>
+          <span class="brand-subtitle">Altar Servers Association</span>
         </div>
       </div>
 
@@ -33,7 +39,7 @@
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           <span>Members</span>
         </a>
-        <a href="meetings.html" class="nav-item">
+        <a href="attendance.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
           <span>Attendance</span>
         </a>
@@ -45,14 +51,13 @@
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
           <span>Reports</span>
         </a>
-        
       </nav>
 
       <div class="sidebar-footer">
-        <a href="index.html" class="nav-item logout-link" id="logoutBtn">
+        <button class="nav-item logout-link" id="logoutBtn" type="button">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
           <span>Logout</span>
-        </a>
+        </button>
       </div>
     </aside>
 
@@ -60,16 +65,22 @@
     <main class="main-content">
       <!-- Top Navigation Header -->
       <header class="main-header">
-        <div class="header-title-area">
-          <h1 class="page-title">Executive Dashboard</h1>
-          <p class="page-subtitle">St. Francis Catholic Church, Idimu — Altar Servers Association Portal</p>
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="sidebarToggle" aria-label="Toggle Navigation Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="header-title-area">
+            <h1 class="page-title">Executive Dashboard</h1>
+            <p class="page-subtitle">St. Francis Catholic Church, Idimu — Altar Servers Association Portal</p>
+          </div>
         </div>
+
         <div class="header-actions">
           <div class="user-profile-badge">
             <div class="avatar-circle">AD</div>
             <div class="user-details">
               <span class="user-name">Administrator</span>
-              <span class="user-role">Executive</span>
+              <span class="user-role">Executive Portal</span>
             </div>
           </div>
         </div>
@@ -79,7 +90,7 @@
         <!-- Executive Welcome Banner -->
         <section class="welcome-banner">
           <div class="welcome-text-wrapper">
-            <span class="banner-badge">Executive Portal</span>
+            <span class="banner-badge">Sanctuary Administration</span>
             <h2>Peace Be With You, Administrator</h2>
             <p>Welcome to the management interface. System records currently track 61 altar servers registered under the St. Francis Catholic Church sanctuary ministry.</p>
           </div>
@@ -152,14 +163,14 @@
                 <h3>Recent Assemblies & Roll Calls</h3>
                 <p>System attendance records logged for liturgical meetings</p>
               </div>
-              <a href="meetings.html" class="btn-text-link">View All Meetings &rarr;</a>
+              <a href="meetings.html" class="btn-text-link">View All Assemblies &rarr;</a>
             </div>
 
             <div class="table-responsive">
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Meeting Title</th>
+                    <th>Assembly Title</th>
                     <th>Date</th>
                     <th>Present</th>
                     <th>Absent</th>
@@ -252,7 +263,7 @@
               </div>
               <div class="info-card-body">
                 <h4>Association Motto</h4>
-                <p>OBSERVE ....... JUDGE ....... ACT</p>
+                <p class="motto-text">OBSERVE &bull; JUDGE &bull; ACT</p>
               </div>
             </div>
           </aside>
