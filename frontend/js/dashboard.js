@@ -1,6 +1,23 @@
 // FILE: frontend/js/dashboard.js
 document.addEventListener('DOMContentLoaded', () => {
-  // Enforce consistent frontend authentication state check across storage layers
+  // 1. Mobile Drawer Controls
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('appSidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  if (sidebarToggle && sidebar && sidebarOverlay) {
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+    });
+  }
+
+  // 2. Enforce consistent frontend authentication state check across storage layers
   const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
   if (!token) {
     window.location.href = 'index.html';
@@ -11,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
 
-  // Handle Logout Action
+  // 3. Handle Logout Action
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async (e) => {

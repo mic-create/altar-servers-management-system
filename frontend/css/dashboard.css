@@ -747,3 +747,28 @@ body {
     display: none;
   }
 }
+
+@media (max-width: 992px) {
+  /* Show top mobile bar */
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Off-screen fixed sidebar */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+  }
+
+  /* Slide sidebar into view when active */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* Shift main content down under fixed top header */
+  .main-content {
+    margin-left: 0 !important;
+    margin-top: 64px;
+  }
+}
