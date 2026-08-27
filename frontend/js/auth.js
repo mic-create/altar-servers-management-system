@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          const rawToken = data.token || (data.data && data.data.token);
-          const tokenToStore = typeof rawToken === 'object' ? rawToken.token : rawToken;
+          // Robustly resolve token from any potential response property variation
+          const rawToken = data.token || data.accessToken || (data.data && data.data.token);
+          const tokenToStore = typeof rawToken === 'object' && rawToken !== null ? rawToken.token : rawToken;
 
           if (typeof tokenToStore === 'string' && tokenToStore.split('.').length === 3) {
             localStorage.setItem('sfcc_auth_token', tokenToStore);
