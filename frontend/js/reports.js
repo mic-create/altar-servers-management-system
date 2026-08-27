@@ -1,4 +1,3 @@
-// FILE: frontend/js/reports.js
 document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const sidebar = document.getElementById('sidebar');
@@ -16,12 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
-  if (!token) {
-    window.location.href = 'index.html';
-    return;
-  }
-
   const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
@@ -31,24 +24,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMessage = document.getElementById('errorMessage');
   const retryBtn = document.getElementById('retryBtn');
   const reportsDashboard = document.getElementById('reportsDashboard');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await fetch(`${API_BASE}/auth/logout`, { 
+          method: 'POST', 
+          credentials: 'include' 
+        });
+      } catch (err) {
+        console.error('Logout error:', err);
+      } finally {
+        window.location.href = 'index.html';
+      }
+    });
+  }
 
   let reportDataCache = null;
 
   async function fetchReports() {
-    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
       if (loadingState) loadingState.style.display = 'block';
       if (errorState) errorState.style.display = 'none';
       if (reportsDashboard) reportsDashboard.style.display = 'none';
 
       const response = await fetch(`${API_BASE}/reports`, { 
-        headers: { 'Authorization': `Bearer ${currentAuthToken}` },
         credentials: 'include' 
       });
 
       if (response.status === 401) {
-        localStorage.removeItem('sfcc_auth_token');
-        sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
       }

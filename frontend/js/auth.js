@@ -1,4 +1,3 @@
-// FILE: frontend/js/auth.js
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const passwordInput = document.getElementById('adminPassword');
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          credentials: 'include',
+          credentials: 'include', // Ensures cookie set by backend is received
           body: JSON.stringify({
             username: 'admin',
             password: enteredPassword
@@ -42,11 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // CRITICAL FIX: Persist token securely under the expected key
-          if (data.token) {
-            localStorage.setItem('sfcc_auth_token', data.token);
-          }
-          sessionStorage.setItem('sfcc_auth', 'true');
           window.location.href = 'dashboard.html';
         } else {
           if (errorAlert) {

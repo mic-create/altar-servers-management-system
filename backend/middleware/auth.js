@@ -2,14 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    let token = null;
-
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.split(' ')[1];
-    } else if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-    }
+    // Extract token securely from HttpOnly cookie
+    const token = req.cookies && req.cookies.token;
 
     if (!token) {
       return res.status(401).json({
@@ -18,7 +12,7 @@ const verifyToken = (req, res, next) => {
       });
     }
 
-    const verified = jwt.verify(token, process.env.JWT_SECRET || 'sfcc_altar_servers_secret_key_2026_secure');
+    const verified = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
     req.user = verified;
     next();
   } catch (err) {
