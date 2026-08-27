@@ -42,12 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // CRITICAL FIX: Persist token securely under the expected key
-          if (data.token) {
-            localStorage.setItem('sfcc_auth_token', data.token);
+          const rawToken = data.token || (data.data && data.data.token);
+          const tokenToStore = typeof rawToken === 'object' ? rawToken.token : rawToken;
+
+          if (typeof tokenToStore === 'string' && tokenToStore.split('.').length === 3) {
+            localStorage.setItem('sfcc_auth_token', tokenToStore);
+            sessionStorage.setItem('sfcc_auth', 'true');
+            window.location.href = 'dashboard.html';
+          } else {
+            throw new Error('Invalid token structure received from server.');
           }
-          sessionStorage.setItem('sfcc_auth', 'true');
-          window.location.href = 'dashboard.html';
         } else {
           if (errorAlert) {
             errorAlert.style.display = 'block';
@@ -55,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       } catch (err) {
-        console.error('Network or server connection error:', err);
+        console.error('Login error:', err);
         if (errorAlert) {
           errorAlert.style.display = 'block';
-          errorAlert.textContent = 'Unable to connect to the server. Please check your network.';
+          errorAlert.textContent = err.message || 'Unable to connect to the server.';
         }
       }
     });
