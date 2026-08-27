@@ -1,5 +1,8 @@
 // FILE: frontend/js/reports.js
 document.addEventListener('DOMContentLoaded', () => {
+  /* ==========================================================================
+     1. Mobile Drawer Navigation Controller
+     ========================================================================== */
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const sidebar = document.getElementById('sidebar');
   const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -16,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==========================================================================
+     2. Authentication Check & API Base Configuration
+     ========================================================================== */
   const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
   if (!token) {
     window.location.href = 'index.html';
@@ -26,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
 
+  /* ==========================================================================
+     3. DOM Container References
+     ========================================================================== */
   const loadingState = document.getElementById('loadingState');
   const errorState = document.getElementById('errorState');
   const errorMessage = document.getElementById('errorMessage');
@@ -34,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let reportDataCache = null;
 
+  /* ==========================================================================
+     4. Data Fetching via HttpOnly / Credentials Engine
+     ========================================================================== */
   async function fetchReports() {
     const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
     try {
@@ -80,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ==========================================================================
+     5. Render Core Reports Page Data
+     ========================================================================== */
   function renderReports(data) {
     document.getElementById('statTotalMembers').textContent = data.summary.total_members;
     document.getElementById('statTotalMeetings').textContent = data.summary.total_meetings;
@@ -160,6 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==========================================================================
+     6. Modal Window Controller
+     ========================================================================== */
   function openMeetingModal(meetingId) {
     if (!reportDataCache) return;
     const meeting = reportDataCache.meetings.find(m => m.id === meetingId);
@@ -197,6 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalCloseActionBtn = document.getElementById('modalCloseActionBtn');
   if (modalCloseActionBtn) modalCloseActionBtn.addEventListener('click', () => { document.getElementById('meetingModal').style.display = 'none'; });
 
+  /* ==========================================================================
+     7. Search, Print & Export Functionality
+     ========================================================================== */
   const memberSearchInput = document.getElementById('memberSearchInput');
   if (memberSearchInput) {
     memberSearchInput.addEventListener('input', (e) => {
@@ -232,9 +253,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (retryBtn) retryBtn.addEventListener('click', fetchReports);
 
+  /* Helper function to escape HTML special characters */
   function escapeHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
   }
 
+  // Trigger initial fetch on load
   fetchReports();
 });
