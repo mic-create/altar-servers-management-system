@@ -10,14 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api';
 
+  // Navigation & Drawer Elements
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
   const logoutBtn = document.getElementById('logoutBtn');
+
+  // Page Content Elements
   const upcomingCard = document.getElementById('upcomingCard');
   const meetingsTableBody = document.getElementById('meetingsTableBody');
   const emptyMeetings = document.getElementById('emptyMeetings');
-  
+  const errorMeetings = document.getElementById('errorMeetings');
+  const retryFetchBtn = document.getElementById('retryFetchBtn');
+  const meetingSearchInput = document.getElementById('meetingSearchInput');
+
+  // KPI Stat Counters
+  const statUpcomingCount = document.getElementById('statUpcomingCount');
+  const statCompletedCount = document.getElementById('statCompletedCount');
+
+  // Modal Elements
   const openCreateModalBtn = document.getElementById('openCreateModalBtn');
   const meetingModal = document.getElementById('meetingModal');
   const closeModalBtn = document.getElementById('closeModalBtn');
+  const closeModalCrossBtn = document.getElementById('closeModalCrossBtn');
   const meetingForm = document.getElementById('meetingForm');
   const modalMonthSelect = document.getElementById('modalMonthSelect');
   const modalTitleInput = document.getElementById('modalTitleInput');
@@ -31,6 +46,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let allMeetings = [];
 
+  /* ==========================================================================
+     Mobile Drawer Navigation Controller
+     ========================================================================== */
+  function openSidebar() {
+    if (sidebar) sidebar.classList.add('open');
+    if (sidebarOverlay) sidebarOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (sidebarOverlay) sidebarOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 992) {
+      closeSidebar();
+    }
+  });
+
+  /* ==========================================================================
+     Authentication Controls
+     ========================================================================== */
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
       try {
@@ -49,58 +99,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==========================================================================
+     Data Fetching & Table Search Logic
+     ========================================================================== */
   fetchMeetings();
 
-  if (openCreateModalBtn) {
-    openCreateModalBtn.addEventListener('click', () => {
-      populateMonthSelector();
-      modalError.style.display = 'none';
-      modalTitleInput.value = 'General Meeting';
-      if (modalTimeInput) modalTimeInput.value = '10:00';
-      modalDescInput.value = '';
-      meetingModal.style.display = 'flex';
-      updateCalculatedDatePreview();
+  if (retryFetchBtn) {
+    retryFetchBtn.addEventListener('click', fetchMeetings);
+  }
+
+  if (meetingSearchInput) {
+    meetingSearchInput.addEventListener('input', () => {
+      renderMeetingsPage();
     });
-  }
-
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', () => {
-      meetingModal.style.display = 'none';
-    });
-  }
-
-  if (modalMonthSelect) {
-    modalMonthSelect.addEventListener('change', updateCalculatedDatePreview);
-  }
-
-  if (modalTimeInput) {
-    modalTimeInput.addEventListener('change', updateScheduledAtDateTime);
   }
 
   async function fetchMeetings() {
     const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+    if (errorMeetings) errorMeetings.style.display = 'none';
+
     try {
       const res = await fetch(`${API_BASE}/meetings`, { 
         headers: { 'Authorization': `Bearer ${currentAuthToken}` },
         credentials: 'include' 
       });
+
       if (res.status === 401) {
         localStorage.removeItem('sfcc_auth_token');
         sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
       }
+
       const json = await res.json();
       if (json.success) {
         allMeetings = json.data;
         renderMeetingsPage();
+      } else {
+        if (errorMeetings) errorMeetings.style.display = 'block';
       }
     } catch (err) {
       console.error('Failed to load meetings:', err);
+      if (errorMeetings) errorMeetings.style.display = 'block';
       showToast('Unable to load meetings from server.', 'error');
     }
   }
 
+  /* ==========================================================================
+     Date Helper Functions
+     ========================================================================== */
   function getLastSaturday(year, month) {
     const date = new Date(year, month + 1, 0);
     while (date.getDay() !== 6) {
@@ -133,6 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${dateFormatted} at ${timeFormatted}`;
   }
 
+  /* ==========================================================================
+     Render Page Elements & Dynamic Calculations
+     ========================================================================== */
   function renderMeetingsPage() {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -178,6 +228,14 @@ document.addEventListener('DOMContentLoaded', () => {
     meetingsTableBody.innerHTML = '';
     const nowISO = now.toISOString();
 
+    // Calculate KPI Totals
+    const completedCount = allMeetings.filter(m => (m.scheduled_at || m.meeting_date) < nowISO).length;
+    const upcomingTotalCount = allMeetings.filter(m => (m.scheduled_at || m.meeting_date) >= nowISO).length;
+
+    if (statUpcomingCount) statUpcomingCount.textContent = `${upcomingTotalCount} Scheduled`;
+    if (statCompletedCount) statCompletedCount.textContent = `${completedCount} Meetings`;
+
+    // Process table display list
     const pastMeetings = allMeetings.filter(m => {
       const sched = m.scheduled_at || m.meeting_date;
       return sched < nowISO;
@@ -188,7 +246,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return sched >= nowISO && (!matchingDbMeeting || m.id !== matchingDbMeeting.id);
     });
 
-    const displayList = [...futureMeetings, ...pastMeetings];
+    let displayList = [...futureMeetings, ...pastMeetings];
+
+    // Filter by Search Bar Input
+    const searchQuery = meetingSearchInput ? meetingSearchInput.value.trim().toLowerCase() : '';
+    if (searchQuery) {
+      displayList = displayList.filter(m => {
+        const titleMatch = m.title && m.title.toLowerCase().includes(searchQuery);
+        const descMatch = m.description && m.description.toLowerCase().includes(searchQuery);
+        const dateMatch = formatDateTimeReadable(m.scheduled_at || m.meeting_date).toLowerCase().includes(searchQuery);
+        return titleMatch || descMatch || dateMatch;
+      });
+    }
 
     if (displayList.length === 0) {
       emptyMeetings.style.display = 'block';
@@ -214,6 +283,41 @@ document.addEventListener('DOMContentLoaded', () => {
         meetingsTableBody.appendChild(tr);
       });
     }
+  }
+
+  /* ==========================================================================
+     Modal Form & API Handlers
+     ========================================================================== */
+  if (openCreateModalBtn) {
+    openCreateModalBtn.addEventListener('click', () => {
+      populateMonthSelector();
+      modalError.style.display = 'none';
+      modalTitleInput.value = 'General Meeting';
+      if (modalTimeInput) modalTimeInput.value = '10:00';
+      modalDescInput.value = '';
+      meetingModal.style.display = 'flex';
+      updateCalculatedDatePreview();
+    });
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+      meetingModal.style.display = 'none';
+    });
+  }
+
+  if (closeModalCrossBtn) {
+    closeModalCrossBtn.addEventListener('click', () => {
+      meetingModal.style.display = 'none';
+    });
+  }
+
+  if (modalMonthSelect) {
+    modalMonthSelect.addEventListener('change', updateCalculatedDatePreview);
+  }
+
+  if (modalTimeInput) {
+    modalTimeInput.addEventListener('change', updateScheduledAtDateTime);
   }
 
   window.openCreateForDate = function(dateStr) {
@@ -323,6 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==========================================================================
+     Helper Utilities
+     ========================================================================== */
   function showToast(message, type = 'success') {
     if (!toast) return;
     toast.textContent = message;
