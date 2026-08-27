@@ -1,4 +1,13 @@
+# FILE: .gitignore
 node_modules/
 .env
-.DS_Store
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
 *.log
+dist/
+build/
+.DS_Store
+.vscode/

@@ -3,17 +3,14 @@ const pool = require('../config/database');
 
 exports.getSystemReports = async (req, res) => {
   try {
-    // Fetch members using exact existing schema columns
     const membersResult = await pool.query("SELECT id, full_name FROM members ORDER BY full_name ASC");
     const membersList = membersResult.rows || [];
     const totalMembers = membersList.length;
 
-    // Fetch meetings
     const meetingsResult = await pool.query("SELECT * FROM meetings ORDER BY id DESC");
     const meetings = meetingsResult.rows || [];
     const totalMeetings = meetings.length;
 
-    // Fetch attendance present records
     const presentResult = await pool.query("SELECT COUNT(*) FROM attendance WHERE status = 'present'");
     const totalPresentRecords = parseInt(presentResult.rows[0].count, 10);
 
