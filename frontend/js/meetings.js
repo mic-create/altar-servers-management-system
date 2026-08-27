@@ -1,3 +1,4 @@
+// FILE: frontend/js/meetings.js
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
   if (!token) {
@@ -5,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
-    : 'https://altar-servers-management-system.onrender.com/api');
+    : 'https://altar-servers-management-system.onrender.com/api';
 
   const logoutBtn = document.getElementById('logoutBtn');
   const upcomingCard = document.getElementById('upcomingCard');

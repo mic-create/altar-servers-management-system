@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+  if (!token) {
+    window.location.href = 'index.html';
+    return;
+  }
+
   const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
@@ -46,11 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await fetch(`${API_BASE}/auth/logout`, { 
           method: 'POST', 
+          headers: { 'Authorization': `Bearer ${token}` },
           credentials: 'include' 
         });
       } catch (err) {
         console.error('Logout error:', err);
       } finally {
+        localStorage.removeItem('sfcc_auth_token');
+        sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
       }
     });
@@ -110,17 +119,23 @@ document.addEventListener('DOMContentLoaded', () => {
     emptyState.style.display = 'none';
     attendanceTableBody.innerHTML = '';
 
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+
     try {
       const [meetingRes, membersRes] = await Promise.all([
         fetch(`${API_BASE}/meetings/${meetingId}/attendance`, { 
+          headers: { 'Authorization': `Bearer ${currentAuthToken}` },
           credentials: 'include' 
         }),
         fetch(`${API_BASE}/members?status=active`, { 
+          headers: { 'Authorization': `Bearer ${currentAuthToken}` },
           credentials: 'include' 
         })
       ]);
 
       if (meetingRes.status === 401 || membersRes.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
+        sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
       }
@@ -306,17 +321,22 @@ document.addEventListener('DOMContentLoaded', () => {
       status: attendanceMap[m.id] || 'unmarked'
     }));
 
+    const currentAuthToken = localStorage.getItem('sfcc_auth_token') || sessionStorage.getItem('sfcc_auth');
+
     try {
       const res = await fetch(`${API_BASE}/meetings/${meetingId}/attendance`, {
         method: 'POST',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentAuthToken}`
         },
         credentials: 'include',
         body: JSON.stringify({ attendance: attendancePayload })
       });
 
       if (res.status === 401) {
+        localStorage.removeItem('sfcc_auth_token');
+        sessionStorage.removeItem('sfcc_auth');
         window.location.href = 'index.html';
         return;
       }
