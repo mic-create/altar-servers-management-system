@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attendanceMap[m.id] = 'present';
       });
       updateStatsAndRender();
-      showToast('All servers marked present.', 'success');
+      showToast('All active servers marked present.', 'success');
     });
   }
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (confirm('Are you sure you want to clear all attendance marks for this meeting?')) {
         attendanceMap = {};
         updateStatsAndRender();
-        showToast('Attendance cleared.', 'info');
+        showToast('Attendance choices reset.', 'info');
       }
     });
   }
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMeetingInfo(meeting) {
     if (!meeting) {
-      meetingInfoCard.innerHTML = `<p>General Meeting (ID: ${escapeHtml(meetingId)})</p>`;
+      meetingInfoCard.innerHTML = `<p style="padding:1rem;">General Assembly Roster (ID: ${escapeHtml(meetingId)})</p>`;
       return;
     }
 
@@ -222,15 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     meetingInfoCard.innerHTML = `
       <div class="meeting-info-header">
-        <span class="badge-upcoming">Official Assembly</span>
+        <span class="badge-upcoming">Official Roster</span>
         <h2>${escapeHtml(meeting.title || 'General Meeting')}</h2>
       </div>
       <div class="meeting-info-meta">
-        <p><strong>Scheduled Date & Time:</strong> ${formattedDate}</p>
-        <p><strong>Association:</strong> SFCC Altar Servers Association, Idimu</p>
-        <p><strong>Database Meeting ID:</strong> ${escapeHtml(String(meeting.id || meetingId))}</p>
+        <p><strong>Scheduled Assembly:</strong> ${formattedDate}</p>
+        <p><strong>Parish Entity:</strong> SFCC Altar Servers Association, Idimu</p>
+        <p><strong>Database Record ID:</strong> ${escapeHtml(String(meeting.id || meetingId))}</p>
       </div>
-      ${meeting.description ? `<p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.875rem;">${escapeHtml(meeting.description)}</p>` : ''}
+      ${meeting.description ? `<p style="margin-top: 0.75rem; color: var(--text-muted); font-size: 0.825rem; line-height: 1.4;">${escapeHtml(meeting.description)}</p>` : ''}
     `;
   }
 
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (filtered.length === 0) {
-      attendanceTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">No altar servers match your search criteria.</td></tr>`;
+      attendanceTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-muted);">No altar servers match your search criteria.</td></tr>`;
       return;
     }
 
@@ -291,10 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       tr.innerHTML = `
-        <td style="color: var(--text-muted); font-weight: 600;">${String(index + 1).padStart(2, '0')}</td>
-        <td class="member-name">${escapeHtml(member.full_name)}</td>
-        <td><span class="status-badge ${badgeClass}">${badgeText}</span></td>
-        <td class="action-cell">
+        <td data-label="No." style="color: var(--text-muted); font-weight: 600;">${String(index + 1).padStart(2, '0')}</td>
+        <td data-label="Altar Server Name" class="member-name">${escapeHtml(member.full_name)}</td>
+        <td data-label="Status"><span class="status-badge ${badgeClass}">${badgeText}</span></td>
+        <td data-label="Action" class="action-cell">
           <button type="button" class="btn-status ${status === 'present' ? 'active-present' : ''}" onclick="setAttendance('${member.id}', 'present')">Present</button>
           <button type="button" class="btn-status ${status === 'absent' ? 'active-absent' : ''}" onclick="setAttendance('${member.id}', 'absent')">Absent</button>
         </td>
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const json = await res.json();
       if (res.ok && json.success) {
-        showToast('Attendance saved successfully.', 'success');
+        showToast('Attendance recorded successfully.', 'success');
       } else {
         throw new Error(json.message || 'Failed to save attendance.');
       }
@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } finally {
       saveAttendanceBtn.disabled = false;
       saveAttendanceBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
           <polyline points="17 21 17 13 7 13 7 21"></polyline>
           <polyline points="7 3 7 8 15 8"></polyline>
