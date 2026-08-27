@@ -45,35 +45,19 @@ app.get('/', (req, res) => {
 });
 
 // ==========================================
-// EXISTING AUTHENTICATION & API ROUTES
+// RESTORED ORIGINAL ROUTE IMPORTS & MOUNTS
 // ==========================================
-// (Restored and retained in their original working location to prevent missing module errors)
+const authRoutes = require('./routes/auth');
+const memberRoutes = require('./routes/members');
+const meetingRoutes = require('./routes/meetings');
+const attendanceRoutes = require('./routes/attendance');
+const reportRoutes = require('./routes/reports');
 
-// Example /api/auth/login endpoint placeholder or your existing inline auth router handlers
-app.post('/api/auth/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    // Your existing validation/database lookup logic remains intact here
-    // If your project uses Supabase or a database check, keep your exact implementation here:
-    if (!username || !password) {
-      return res.status(400).json({ success: false, message: 'Username and password required' });
-    }
-    
-    // Placeholder for your verified login flow:
-    // const isValid = ...;
-    // if (isValid) { ... res.json({ success: true, ... }) }
-    
-    res.json({ success: true, message: 'Login successful' });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error during login' });
-  }
-});
-
-app.post('/api/auth/logout', (req, res) => {
-  res.clearCookie('token');
-  res.json({ success: true, message: 'Logged out successfully' });
-});
+app.use('/api/auth', authRoutes);
+app.use('/api/members', memberRoutes);
+app.use('/api/meetings', meetingRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
