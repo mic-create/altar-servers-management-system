@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const togglePasswordBtn = document.getElementById('togglePasswordBtn');
   const errorAlert = document.getElementById('errorAlert');
 
-  // Use the centralized global API base or fallback safely
+  // Use the centralized global API base or fallback safely for production/local environments
   const API_BASE = window.API_BASE || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://127.0.0.1:5000/api' 
     : 'https://altar-servers-management-system.onrender.com/api');
@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // Extract token from standard properties returned by backend
-          const token = data.token || data.accessToken || (data.data && data.data.token);
+          // Read the exact top-level token property returned by the backend: data.token
+          const token = data.token;
 
           if (!token || typeof token !== 'string' || token.split('.').length !== 3) {
             console.error('Login succeeded but token format is invalid or missing:', data);
@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
 
-          // Store token using ONE consistent key across the entire application
+          // Store token using the consistent application-wide storage key
           localStorage.setItem('sfcc_auth_token', token);
           sessionStorage.setItem('sfcc_auth', 'true');
 
-          // Explicit redirect to dashboard
+          // Navigate directly to the dashboard
           window.location.replace('dashboard.html');
         } else {
           if (errorAlert) {
